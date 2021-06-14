@@ -3,7 +3,8 @@ let graph = [];
 let reconstructed = [];
 let a = [];
 let b = [];
-const N = 1000;
+let f = [];
+const N = 200;
 const period = 200 * Math.PI;
 const T = Math.floor(2*Math.PI*100);
 let original_graph = [];
@@ -11,7 +12,7 @@ function setup(){
 	createCanvas(500, 500);
 	background(255);
 	for(i=0;i<T;i++){
-		if(i<100){
+		if(i<T/2){
 			original_graph[i] = 40;
 		}
 		else{
@@ -60,12 +61,48 @@ function draw(){
 	}
 	endShape(OPEN);
 	FT();
-	console.log(a);
+	stroke(200,200,200);
+	beginShape();
+	let cumu = 0;
+	for(i=0;i<N;i++){
+		if(i>0){
+			cumu += b[i] * sin(i*Math.PI*colortime/T);
+		}
+		cumu += a[i] * cos(i*Math.PI * colortime/T);
+	}
+	f.unshift(cumu);
+	console.log(f);
+	for(i=0;i<f.length; i++){
+		vertex(i+200, 300 + f[i]);
+	}
+	endShape(OPEN);
+	xpointer2 = 100 + 40 * cos(colortime/100);
+	ypointer2 = 300 + 40 * sin(colortime/100);
+	for(i=1;i<N;i++){
+		ellipse(xpointer2,ypointer2,80/(2*i+1));
+		xpointer2 = xpointer2 + 40/(2*i+1) * cos(colortime*(2*i+1)/100);
+		ypointer2 = ypointer2 + 40/(2*i+1) * sin(colortime*(2*i+1)/100);
+	}
+
 }
 
 function FT(array){
-	a[0] = 0;
 	for(i=0;i<T;i++){
-		a[0] += (2/T) * original_graph[i];
+		a[i] = 0;
+		b[i] = 0;
+	}
+	for(i=-T;i<T;i+=1){
+		if(i<0){
+			for(j=0;j<N;j++){
+				a[j] += (2/T) * original_graph[T+i] * cos(Math.PI*j*i/T);
+				b[j] += (2/T) * original_graph[T+i] * sin(Math.PI*j*i/T);
+			}
+		}
+		else{
+			for(j=0;j<N;j++){
+				a[j] += (2/T) * original_graph[i] * cos(Math.PI*j*i/T);
+				b[j] += (2/T) * original_graph[i] * sin(Math.PI*j*i/T);
+			}
+		}
 	}
 }
