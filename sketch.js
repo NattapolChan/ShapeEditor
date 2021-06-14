@@ -4,7 +4,7 @@ let reconstructed = [];
 let a = [];
 let b = [];
 let f = [];
-const N = 200;
+const N = 100;
 const period = 200 * Math.PI;
 const T = Math.floor(2*Math.PI*100);
 let original_graph = [];
@@ -70,20 +70,26 @@ function draw(){
 		}
 		cumu += a[i] * cos(i*Math.PI * colortime/T);
 	}
+
 	f.unshift(cumu);
 	console.log(f);
 	for(i=0;i<f.length; i++){
 		vertex(i+200, 300 + f[i]);
 	}
-	endShape(OPEN);
-	xpointer2 = 100 + 40 * cos(colortime/100);
-	ypointer2 = 300 + 40 * sin(colortime/100);
-	for(i=1;i<N;i++){
-		ellipse(xpointer2,ypointer2,80/(2*i+1));
-		xpointer2 = xpointer2 + 40/(2*i+1) * cos(colortime*(2*i+1)/100);
-		ypointer2 = ypointer2 + 40/(2*i+1) * sin(colortime*(2*i+1)/100);
-	}
 
+	endShape(OPEN);
+	xpointer2 = 100;
+	ypointer2 = 380;
+	//ellipse(xpointer2,ypointer2, a[0]);
+	for(i=1;i<N;i++){
+		ellipse(xpointer2, ypointer2, 2*a[i])
+		ypointer2 += a[i] * cos(colortime*i/200);
+		xpointer2 += a[i] * sin(colortime*i/200);
+		ellipse(xpointer2, ypointer2, 2* b[i])
+		ypointer2 += b[i] * sin(colortime*i/200);
+		xpointer2 += b[i] * cos(colortime*i/200);
+	}
+	line(xpointer2,ypointer2,200,300+f[0]);
 }
 
 function FT(array){
