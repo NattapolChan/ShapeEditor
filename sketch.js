@@ -17,6 +17,7 @@ let original_graph_y = [];
 function setup(){
 	createCanvas(900, 900);
 	background(255);
+	frameRate(120)
 	for(i=0;i<T;i++){
 		original_graph_x[i] = element[floor(element.length*i/T)].y/2;
 		original_graph_y[i] = element[floor(element.length*i/T)].x/2;
