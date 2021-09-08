@@ -154,7 +154,7 @@ function mouseReleased(){
     if(mouseX<0||mouseY<0||mouseX>width||mouseY>8*height/9){
         return
     }
-    if(tmpshapeobjectarray[2]>2 && tmpshapeobjectarray[3]>2){
+    if(abs(tmpshapeobjectarray[2])>1 && abs(tmpshapeobjectarray[3])>1){
         shapeobjectarray.push(tmpshapeobjectarray)
     }
     tmpshapeobjectarray = []//============
@@ -189,7 +189,7 @@ function ShapeObjectDisplay(x,y,radx,rady,shape){
 function mouseClicked(){
     if(del){
         for(i=0;i<shapeobjectarray.length;i++){
-            if(abs(mouseX - shapeobjectarray[i][0])<10 && abs(mouseY - shapeobjectarray[i][1])<10){
+            if(abs(mouseX - shapeobjectarray[i][0])<shapeobjectarray[i][2] && abs(mouseY - shapeobjectarray[i][1])<shapeobjectarray[i][3]){
                 shapeobjectarray.splice(i,i)
             }
         }
