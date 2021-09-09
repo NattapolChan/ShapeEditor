@@ -22,10 +22,10 @@ function changeshownShape(slidervalue){
         fill(200,200,100)
         noStroke()
         rectMode(CENTER)
-        rect(width/2 + 130, 0.94 * height, 55, 55)
+        rect(width/2 + 130/1016 * width, 0.94 * height, 55, 55)
         fill(200, 60, 10, 200)
         stroke(0, 0, 0)
-        polygon(width/2 + 130, 0.95 * height, 20, 20, numberofside)
+        polygon(width/2 + 130/1016 * width, 0.95 * height, 20, 20, numberofside)
         if(numberofside == 10){
             fill(255,255,255)
             text(str(numberofside),width/2 + 123/1016 * width, 0.955 * height)
@@ -41,13 +41,13 @@ function changeshownShape(slidervalue){
         ShapeSelector = 1000
         fill(200,200,100)
         noStroke()
-        rect(width/2 + 130, 0.94 * height, 55, 55)
+        rect(width/2 + 130/1016 * width, 0.94 * height, 55, 55)
         rectMode(CENTER)
         fill(200, 60, 10, 200)
         stroke(0, 0, 0)
-        ellipse(width/2 + 130, 0.95 * height, 40)
+        ellipse(width/2 + 130/1016 * width, 0.95 * height, 40)
         fill(255,255,255)
-        text('circle', width/2 + 116/1016 * width, 0.955 * height)
+        text('circle', width/2 + 119/1016 * width, 0.955 * height)
     }
 }
 
@@ -55,8 +55,8 @@ function setup(){
     sidebarcanvas = createCanvas(windowWidth, windowHeight)
     background(100)
     gui = createGui()
-    a = createSlider("Shape Mode", width/2 - 300, height * 0.92 ,400, 40)
-    b = createButton("DEL", 155/1016 * width, height * 0.92 ,40, 40)
+    a = createSlider("Shape Mode", width/2 - 190/1016 * width, height * 0.92 ,400, 40)
+    b = createButton("DEL", width/2 - 232/1016 * width, height * 0.92 ,40, 40)
     sidebar()
     changeshownShape(a.val)
     shapeobjectarray = [[]]
@@ -90,6 +90,7 @@ function draw(){
     drawGui();
     slidervalue = a.val
     refreshbackground()
+    changeshownShape(a.val)
     if(mouseIsPressed){
         if(!del){
             fill(0,0,0)
