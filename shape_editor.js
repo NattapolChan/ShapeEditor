@@ -5,6 +5,11 @@ var a
 var shapeobjectarray = [[]]
 var tmpshapeobjectarray = []
 var del
+
+function preload(){
+    DelImage = loadImage("picture/DeleteIcon.jpg")
+}
+
 function polygon(x, y, radiusx, radiusy, npoints) {
     let angle = TWO_PI / npoints;
     beginShape();
@@ -22,18 +27,18 @@ function changeshownShape(slidervalue){
         fill(200,200,100)
         noStroke()
         rectMode(CENTER)
-        rect(width/2 + 130/1016 * width, 0.94 * height, 55, 55)
+        rect(width/2 + 230/1016 * width, 0.94 * height, 55, 55)
         fill(200, 60, 10, 200)
         stroke(0, 0, 0)
-        polygon(width/2 + 130/1016 * width, 0.95 * height, 20, 20, numberofside)
+        polygon(width/2 + 230/1016 * width, 0.95 * height, 20, 20, numberofside)
         if(numberofside == 10){
             fill(255,255,255)
-            text(str(numberofside),width/2 + 123/1016 * width, 0.955 * height)
+            text(str(numberofside),width/2 + 223/1016 * width, 0.955 * height)
             ShapeSelector = numberofside
         }
         else{
             fill(255,255,255)
-            text(str(numberofside),width/2 + 127/1016 * width, 0.955 * height)
+            text(str(numberofside),width/2 + 227/1016 * width, 0.955 * height)
             ShapeSelector = numberofside
         }
     }
@@ -41,13 +46,13 @@ function changeshownShape(slidervalue){
         ShapeSelector = 1000
         fill(200,200,100)
         noStroke()
-        rect(width/2 + 130/1016 * width, 0.94 * height, 55, 55)
+        rect(width/2 + 230/1016 * width, 0.94 * height, 55, 55)
         rectMode(CENTER)
         fill(200, 60, 10, 200)
         stroke(0, 0, 0)
-        ellipse(width/2 + 130/1016 * width, 0.95 * height, 40)
+        ellipse(width/2 + 230/1016 * width, 0.95 * height, 40)
         fill(255,255,255)
-        text('circle', width/2 + 119/1016 * width, 0.955 * height)
+        text('circle', width/2 + 219/1016 * width, 0.955 * height)
     }
 }
 
@@ -55,11 +60,9 @@ function setup(){
     sidebarcanvas = createCanvas(windowWidth, windowHeight)
     background(100)
     gui = createGui()
-    a = createSlider("Shape Mode", width/2 - 190/1016 * width, height * 0.92 ,400, 40)
-    b = createButton("DEL", width/2 - 232/1016 * width, height * 0.92 ,40, 40)
+    a = createSlider("Shape Mode", width/2 - 190/1016 * width, height * 0.92 , 390/1016 * width, 40)
     sidebar()
     changeshownShape(a.val)
-    shapeobjectarray = [[]]
     tmpshapeobjectarray = []
 }
 
@@ -82,6 +85,7 @@ function sidebar(){
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
     background(100);
+    setup()
     sidebar()
     changeshownShape(a.val)
 }
@@ -125,6 +129,17 @@ function draw(){
     ShapeObjectDisplay(tmpshapeobjectarray[0],tmpshapeobjectarray[1],tmpshapeobjectarray[2],tmpshapeobjectarray[3],tmpshapeobjectarray[4])
 
     if(a.isChanged){changeshownShape(a.val)}
+    if(del){
+        for(i=0;i<shapeobjectarray.length;i++){
+            if(abs(mouseX - shapeobjectarray[i][0])<abs(shapeobjectarray[i][2]) && abs(mouseY - shapeobjectarray[i][1])<abs(shapeobjectarray[i][3])){
+                image(DelImage, mouseX, mouseY, width*0.02, width*0.02)
+                console.log(i)
+            }
+        }  
+        text("deleting", width/2 - 240/1016 * width, height * 0.955)
+    }else{
+        text("drawing", width/2 - 240/1016 * width, height * 0.955)
+    }
 }
 
 function mousePressed(){
@@ -139,12 +154,10 @@ function mousePressed(){
 }
 
 function changemode(){
-    if(b.label == "DEL"){
-        b.label = "DRA"
+    if(!del){
         del = true
     }
     else{
-        b.label = "DEL"
         del = false
     }
 }
@@ -190,8 +203,9 @@ function ShapeObjectDisplay(x,y,radx,rady,shape){
 function mouseClicked(){
     if(del){
         for(i=0;i<shapeobjectarray.length;i++){
-            if(abs(mouseX - shapeobjectarray[i][0])<shapeobjectarray[i][2] && abs(mouseY - shapeobjectarray[i][1])<shapeobjectarray[i][3]){
+            if(abs(mouseX - shapeobjectarray[i][0])<abs(shapeobjectarray[i][2]) && abs(mouseY - shapeobjectarray[i][1])< abs(shapeobjectarray[i][3])){
                 shapeobjectarray.splice(i,i)
+                del = !del
             }
         }
     }
