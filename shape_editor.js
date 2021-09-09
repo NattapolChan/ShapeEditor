@@ -92,6 +92,7 @@ function windowResized() {
 
 function draw(){
     drawGui();
+    text("Press d to change between drawing and deleting", 0, height * 0.955)
     slidervalue = a.val
     refreshbackground()
     changeshownShape(a.val)
@@ -133,7 +134,6 @@ function draw(){
         for(i=0;i<shapeobjectarray.length;i++){
             if(abs(mouseX - shapeobjectarray[i][0])<abs(shapeobjectarray[i][2]) && abs(mouseY - shapeobjectarray[i][1])<abs(shapeobjectarray[i][3])){
                 image(DelImage, mouseX, mouseY, width*0.02, width*0.02)
-                console.log(i)
             }
         }  
         text("deleting", width/2 - 240/1016 * width, height * 0.955)
